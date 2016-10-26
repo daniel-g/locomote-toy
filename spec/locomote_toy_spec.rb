@@ -11,6 +11,30 @@ describe Locomote::Toy do
     expect(locomote_toy.direction).to eq Locomote::Toy::NORTH
   end
 
+  it 'turns the direction to 90 degrees left' do
+    locomote_toy.place(2, 2, Locomote::Toy::NORTH)
+    locomote_toy.turn Locomote::Toy::LEFT
+    expect(locomote_toy.direction).to eq Locomote::Toy::WEST
+    locomote_toy.turn Locomote::Toy::LEFT
+    expect(locomote_toy.direction).to eq Locomote::Toy::SOUTH
+    locomote_toy.turn Locomote::Toy::LEFT
+    expect(locomote_toy.direction).to eq Locomote::Toy::EAST
+    locomote_toy.turn Locomote::Toy::LEFT
+    expect(locomote_toy.direction).to eq Locomote::Toy::NORTH
+  end
+
+  it 'changes the direction to 90 degrees right' do
+    locomote_toy.place(2, 2, Locomote::Toy::NORTH)
+    locomote_toy.turn Locomote::Toy::RIGHT
+    expect(locomote_toy.direction).to eq Locomote::Toy::EAST
+    locomote_toy.turn Locomote::Toy::RIGHT
+    expect(locomote_toy.direction).to eq Locomote::Toy::SOUTH
+    locomote_toy.turn Locomote::Toy::RIGHT
+    expect(locomote_toy.direction).to eq Locomote::Toy::WEST
+    locomote_toy.turn Locomote::Toy::RIGHT
+    expect(locomote_toy.direction).to eq Locomote::Toy::NORTH
+  end
+
   it 'moves north' do
     locomote_toy.place(2, 2, Locomote::Toy::NORTH)
     locomote_toy.move

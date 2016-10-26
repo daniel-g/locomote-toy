@@ -5,6 +5,11 @@ module Locomote
     SOUTH = :south
     WEST = :west
 
+    LEFT = :left
+    RIGHT = :right
+
+    DIRECTIONS = [NORTH, EAST, SOUTH, WEST]
+
     MAX_X = 4
     MAX_Y = 4
 
@@ -28,6 +33,20 @@ module Locomote
           self.y = position[:y] - 1
         when WEST
           self.x = position[:x] - 1
+        end
+      end
+    end
+
+    def turn side
+      direction_index = DIRECTIONS.index(direction)
+      batch do
+        case side
+        when LEFT
+          direction_index = 4 if direction_index == 0
+          self.direction = DIRECTIONS[direction_index - 1]
+        when RIGHT
+          direction_index = -1 if direction_index == 3
+          self.direction = DIRECTIONS[direction_index + 1]
         end
       end
     end
