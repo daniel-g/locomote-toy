@@ -23,32 +23,11 @@ module Locomote
     end
 
     def move
-      batch do
-        case direction
-        when NORTH
-          self.y = position[:y] + 1
-        when EAST
-          self.x = position[:x] + 1
-        when SOUTH
-          self.y = position[:y] - 1
-        when WEST
-          self.x = position[:x] - 1
-        end
-      end
+      batch{ send("move_#{direction}") }
     end
 
     def turn side
-      direction_index = DIRECTIONS.index(direction)
-      batch do
-        case side
-        when LEFT
-          direction_index = 4 if direction_index == 0
-          self.direction = DIRECTIONS[direction_index - 1]
-        when RIGHT
-          direction_index = -1 if direction_index == 3
-          self.direction = DIRECTIONS[direction_index + 1]
-        end
-      end
+      batch{ send("turn_#{side}") }
     end
 
     def x
@@ -66,6 +45,38 @@ module Locomote
     private
 
     attr_accessor :last_position, :last_direction
+
+    def move_north
+      self.y = position[:y] + 1
+    end
+
+    def move_east
+      self.x = position[:x] + 1
+    end
+
+    def move_south
+      self.y = position[:y] - 1
+    end
+
+    def move_west
+      self.x = position[:x] - 1
+    end
+
+    def direction_index
+      DIRECTIONS.index(direction)
+    end
+
+    def turn_left
+      index = direction_index
+      index = 4 if direction_index == 0
+      self.direction = DIRECTIONS[index - 1]
+    end
+
+    def turn_right
+      index = direction_index
+      index = -1 if direction_index == 3
+      self.direction = DIRECTIONS[index + 1]
+    end
 
     def batch
       save_last_state
