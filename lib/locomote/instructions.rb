@@ -35,7 +35,12 @@ module Locomote
         Locomote::Instructions::Move.new
       when 'REPORT'
         Locomote::Instructions::Report.new
+      else
+        raise Locomote::Instructions::CommandNotKnown.new("Received command not known: #{instruction}")
       end
+    end
+
+    class CommandNotKnown < StandardError
     end
 
     class Place

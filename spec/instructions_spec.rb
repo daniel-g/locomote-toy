@@ -25,6 +25,19 @@ describe Locomote::Instructions do
     expect(instructions.instructions[5]).to be_kind_of Locomote::Instructions::Report
   end
 
+  it 'raises a CommandNotKnown exception if the command is not known' do
+    expect{
+      instructions.load('
+        PLACE 1,2,EAST
+        MOVES
+        MOVE
+        LEFT
+        MOVE
+        REPORT
+      ')
+    }.to raise_error(Locomote::Instructions::CommandNotKnown)
+  end
+
   it 'executes instructions from file' do
     instructions.load('
       PLACE 1,2,EAST
